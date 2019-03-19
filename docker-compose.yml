@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+   config:
+     build: config-service
+     network_mode: "host"
+
+   zuul:
+    build: zuul-api-gateway
+    network_mode: "host"
+
+   eureka:
+     build: eureka-service
+     network_mode: "host"
+
+   movieservice:
+     build: MovieService
+     network_mode: "host"
+     restart: always
+     depends_on:
+       - config
+       - zuul
+       - eureka
+   user:
+    build: user-service
+    network_mode: "host"
+    restart: always
+    depends_on:
+       - config
+       - zuul
+       - eureka
